@@ -51,34 +51,17 @@ for i in {1..10}; do
     sleep 1
 done
 
-# Start client
-echo -e "\n${GREEN}Starting client on port 5173...${NC}"
-cd "$PROJECT_ROOT/apps/client"
-bun run dev &
-CLIENT_PID=$!
-
-# Wait for client to be ready
-echo -e "${YELLOW}Waiting for client to start...${NC}"
-for i in {1..10}; do
-    if curl -s http://localhost:5173 >/dev/null 2>&1; then
-        echo -e "${GREEN}✅ Client is ready!${NC}"
-        break
-    fi
-    sleep 1
-done
 
 # Display status
 echo -e "\n${BLUE}============================================${NC}"
 echo -e "${GREEN}✅ Multi-Agent Observability System Started${NC}"
 echo -e "${BLUE}============================================${NC}"
 echo
-echo -e "🖥️  Client URL: ${GREEN}http://localhost:5173${NC}"
 echo -e "🔌 Server API: ${GREEN}http://localhost:4000${NC}"
 echo -e "📡 WebSocket: ${GREEN}ws://localhost:4000/stream${NC}"
 echo
 echo -e "📝 Process IDs:"
 echo -e "   Server PID: ${YELLOW}$SERVER_PID${NC}"
-echo -e "   Client PID: ${YELLOW}$CLIENT_PID${NC}"
 echo
 echo -e "To stop the system, run: ${YELLOW}./scripts/reset-system.sh${NC}"
 echo -e "To test the system, run: ${YELLOW}./scripts/test-system.sh${NC}"
@@ -89,7 +72,6 @@ echo -e "${BLUE}Press Ctrl+C to stop both processes${NC}"
 cleanup() {
     echo -e "\n${YELLOW}Shutting down...${NC}"
     kill $SERVER_PID 2>/dev/null
-    kill $CLIENT_PID 2>/dev/null
     echo -e "${GREEN}✅ Stopped all processes${NC}"
     exit 0
 }
@@ -98,4 +80,4 @@ cleanup() {
 trap cleanup INT
 
 # Wait for both processes
-wait $SERVER_PID $CLIENT_PID
+wait $SERVER_PID
