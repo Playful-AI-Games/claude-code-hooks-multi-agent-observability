@@ -38,7 +38,6 @@ done
 
 # Display status
 echo -e "\n${BLUE}============================================${NC}"
-echo -e "${GREEN}✅ Multi-Agent Observability WebApp Started${NC}"
 echo -e "${BLUE}============================================${NC}"
 echo
 echo -e "🖥️  Client URL: ${GREEN}http://localhost:5173${NC}"
